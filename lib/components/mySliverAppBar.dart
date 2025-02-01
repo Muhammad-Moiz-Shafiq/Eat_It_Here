@@ -13,7 +13,8 @@ class MySliverAppBar extends StatelessWidget {
         'E A T I T H E R E!',
         style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
       ),
-      expandedHeight: 300.0,
+      expandedHeight: 320.0,
+      collapsedHeight: 100,
       floating: false,
       pinned: true,
       actions: [

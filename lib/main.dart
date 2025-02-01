@@ -5,13 +5,19 @@ import 'package:eat_it_here/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'models/restaurant.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: const MyApp(),
-    ),
+    MultiProvider(providers: [
+      ChangeNotifierProvider<ThemeProvider>(
+        create: (_) => ThemeProvider(),
+      ),
+      ChangeNotifierProvider<Restaurant>(
+        create: (_) => Restaurant(),
+      ),
+    ], child: const MyApp()),
   );
 }
 
