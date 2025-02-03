@@ -1,7 +1,7 @@
 import 'package:eat_it_here/components/my_tabbar.dart';
 import 'package:eat_it_here/models/food.dart';
 import 'package:eat_it_here/models/restaurant.dart';
-import 'package:eat_it_here/pages/cart_page.dart';
+import 'package:eat_it_here/pages/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,7 +55,9 @@ class _HomePageState extends State<HomePage>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => FoodPage(),
+                builder: (context) => FoodPage(
+                  food: categoricalMenu[index],
+                ),
               ),
             );
           },

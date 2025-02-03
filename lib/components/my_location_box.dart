@@ -15,15 +15,17 @@ class MyCurrentLocationBox extends StatelessWidget {
         actions: [
           MaterialButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             },
             child: Text('Cancel'),
           ),
           MaterialButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             },
-            child: Text('Save'),
+            child: Text(
+              'Save',
+            ),
           ),
         ],
       ),

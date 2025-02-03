@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
+import 'cart_item.dart';
 import 'food.dart';
 
 class Restaurant extends ChangeNotifier {
@@ -271,47 +273,101 @@ class Restaurant extends ChangeNotifier {
 
   //getters
   List<Food> get menu => _menu;
-  List<Food> getBurgers() {
-    return _menu
-        .where((element) => element.category == FoodCategory.burgers)
-        .toList();
-  }
+  List<CartItem> get cart => _cart;
+  /*// List<Food> getBurgers() {
+  //   return _menu
+  //       .where((element) => element.category == FoodCategory.burgers)
+  //       .toList();
+  // }
+  //
+  // List<Food> getSalads() {
+  //   return _menu
+  //       .where((element) => element.category == FoodCategory.salads)
+  //       .toList();
+  // }
+  //
+  // List<Food> getSides() {
+  //   return _menu
+  //       .where((element) => element.category == FoodCategory.sides)
+  //       .toList();
+  // }
+  //
+  // List<Food> getDrinks() {
+  //   return _menu
+  //       .where((element) => element.category == FoodCategory.drinks)
+  //       .toList();
+  // }
+  //
+  // List<Food> getDesserts() {
+  //   return _menu
+  //       .where((element) => element.category == FoodCategory.desserts)
+  //       .toList();
+  // }
+  //
+   */
 
-  List<Food> getSalads() {
-    return _menu
-        .where((element) => element.category == FoodCategory.salads)
-        .toList();
-  }
-
-  List<Food> getSides() {
-    return _menu
-        .where((element) => element.category == FoodCategory.sides)
-        .toList();
-  }
-
-  List<Food> getDrinks() {
-    return _menu
-        .where((element) => element.category == FoodCategory.drinks)
-        .toList();
-  }
-
-  List<Food> getDesserts() {
-    return _menu
-        .where((element) => element.category == FoodCategory.desserts)
-        .toList();
-  }
+  //List of cart items
+  final List<CartItem> _cart = [];
   //Operations
   //add to cart
+  void addToCart(Food food, List<Addon> selectedAddons) {
+    CartItem? cartItem = _cart.firstWhereOrNull((item) {
+      bool isSameFood = item.food == food;
+      bool isSameAddons =
+          const ListEquality().equals(item.selectedAddons, selectedAddons);
+      return isSameFood && isSameAddons;
+    });
+    if (cartItem != null) {
+      cartItem.quantity++;
+    } else {
+      _cart.add(CartItem(food: food, selectedAddons: selectedAddons));
+    }
+    notifyListeners();
+  }
+
   //remove from cart
+  void removeFromCart(CartItem cartItem) {
+    int cartIndex = _cart.indexOf(cartItem);
+    if (cartIndex != -1) {
+      if (_cart[cartIndex].quantity > 1) {
+        _cart[cartIndex].quantity--;
+      } else {
+        _cart.removeAt(cartIndex);
+      }
+    }
+    notifyListeners();
+  }
+
   //clear cart
+  void clearCart() {
+    _cart.clear();
+    notifyListeners();
+  }
+
   //get total price
+  double getTotalPrice() {
+    double total = 0;
+
+    for (CartItem item in _cart) {
+      total += item.totalPrice;
+    }
+    return total;
+  }
+
   //get total number of items in cart
+  int getTotalItems() {
+    int total = 0;
+    for (CartItem item in _cart) {
+      total += item.quantity;
+    }
+    return total;
+  }
 
-// helper functions
+  // helper functions
 
-//generate receipts
+  //generate receipts
 
-//format double value to money
+  //format double value to money
 
-//format list of addons into string
+  //format list of addons into string
 }

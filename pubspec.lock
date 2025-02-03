@@ -66,7 +66,7 @@ packages:
     source: hosted
     version: "4.4.2"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       sha256: a1ace0a119f20aabc852d165077c036cd864315bd99b7eaa10a60100341941bf
@@ -142,6 +142,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_credit_card:
+    dependency: "direct main"
+    description:
+      name: flutter_credit_card
+      sha256: dffaee369b0e64fb81e63e78d6410762f73b67346692bd2ae7bdcc6d911452e3
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:
