@@ -73,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.0"
+  credit_card_form:
+    dependency: "direct main"
+    description:
+      name: credit_card_form
+      sha256: "1943fe2f2b2ab9204d76ca1135c6f313907f59199ab0e546d489cedf55c9fd0a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.7"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -142,14 +150,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_credit_card:
-    dependency: "direct main"
-    description:
-      name: flutter_credit_card
-      sha256: dffaee369b0e64fb81e63e78d6410762f73b67346692bd2ae7bdcc6d911452e3
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -333,6 +333,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  u_credit_card:
+    dependency: "direct main"
+    description:
+      name: u_credit_card
+      sha256: "97fb11becedd3159f1f7b19cbafb1a64661733aaedc254aef5023bfc5d140b21"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   vector_math:
     dependency: transitive
     description:
