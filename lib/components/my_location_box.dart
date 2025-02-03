@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 
-class MyCurrentLocationBox extends StatelessWidget {
+class MyCurrentLocationBox extends StatefulWidget {
   const MyCurrentLocationBox({super.key});
+
+  @override
+  State<MyCurrentLocationBox> createState() => _MyCurrentLocationBoxState();
+}
+
+class _MyCurrentLocationBoxState extends State<MyCurrentLocationBox> {
+  String location = 'Rahmat Hostel, Bolan Rd';
   void openLocationSearchBox(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Your Location'),
+        title: const Text('Your Location'),
         content: TextField(
+          onChanged: (value) {
+            //update location
+            setState(() {
+              location = value;
+            });
+          },
           decoration: InputDecoration(
             hintText: 'Enter your location',
           ),
@@ -50,7 +63,7 @@ class MyCurrentLocationBox extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  'Rahmat Hostel, Bolan Rd',
+                  location,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.inversePrimary,
                       fontWeight: FontWeight.bold),

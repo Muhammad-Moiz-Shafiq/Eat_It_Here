@@ -1,10 +1,11 @@
-import 'dart:math';
-
 import 'package:credit_card_form/credit_card_form.dart' hide CardType;
 import 'package:eat_it_here/components/my_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:u_credit_card/u_credit_card.dart';
 
+import '../themes/light_mode.dart';
+import '../themes/theme_provider.dart';
 import 'delivery_page.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -34,7 +35,30 @@ class _PaymentPageState extends State<PaymentPage> {
 
   void onTapPay() {
     //payment logic
-
+    // checking if user has filled the form or not
+    if (cardNumber == '**** **** **** ****' ||
+        expiryDate == 'mm/yy' ||
+        cardHolderName == 'Card Holder Name' ||
+        cvvCode == '***') {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text('Error'),
+                content: const Text('Please fill the form correctly.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ],
+              ));
+      return;
+    }
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -80,6 +104,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Payment'),
         centerTitle: true,
@@ -91,16 +116,19 @@ class _PaymentPageState extends State<PaymentPage> {
           //mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //credit card display widget
-            CreditCardUi(
-              cardHolderFullName: cardHolderName,
-              cardNumber: cardNumber,
-              validThru: expiryDate,
-              showValidFrom: false,
-              doesSupportNfc: false,
-              cvvNumber: cvvCode,
-              enableFlipping: true,
-              cardType: CardType.other,
-              topLeftColor: Colors.blue,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15.0),
+              child: CreditCardUi(
+                cardHolderFullName: cardHolderName,
+                cardNumber: cardNumber,
+                validThru: expiryDate,
+                showValidFrom: false,
+                doesSupportNfc: false,
+                cvvNumber: cvvCode,
+                enableFlipping: true,
+                cardType: CardType.other,
+                topLeftColor: Colors.blue,
+              ),
             ),
 
             const SizedBox(height: 30),
@@ -109,14 +137,24 @@ class _PaymentPageState extends State<PaymentPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CreditCardForm(
+                theme:
+                    Provider.of<ThemeProvider>(context).themeData == lightMode
+                        ? CreditCardLightTheme()
+                        : CreditCardDarkTheme(),
                 controller: controller,
                 onChanged: (CreditCardResult result) {
                   setState(() {
-                    cardNumber = result.cardNumber;
-                    expiryDate =
-                        '${result.expirationMonth}/${result.expirationYear}';
-                    cardHolderName = result.cardHolderName;
-                    cvvCode = result.cvc;
+                    cardNumber = result.cardNumber.isEmpty
+                        ? '**** **** **** ****'
+                        : result.cardNumber;
+                    expiryDate = result.expirationMonth.isEmpty &&
+                            result.expirationYear.isEmpty
+                        ? 'mm/yy'
+                        : '${result.expirationMonth}/${result.expirationYear}';
+                    cardHolderName = result.cardHolderName.isEmpty
+                        ? 'Card Holder Name'
+                        : result.cardHolderName;
+                    cvvCode = result.cvc.isEmpty ? '***' : result.cvc;
                   });
                 },
               ),
