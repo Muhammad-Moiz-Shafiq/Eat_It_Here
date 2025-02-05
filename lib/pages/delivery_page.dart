@@ -1,3 +1,4 @@
+import 'package:eat_it_here/components/my_receipt.dart';
 import 'package:flutter/material.dart';
 
 class DeliveryProgressPage extends StatefulWidget {
@@ -19,25 +20,7 @@ class _DeliveryProgressPageState extends State<DeliveryProgressPage> {
         ),
         body: Column(
           children: [
-            const SizedBox(height: 20),
-            const Text(
-              'Your order is being prepared',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20),
-            const CircularProgressIndicator(),
-            const SizedBox(height: 20),
-            const Text(
-              'Please wait for your order to be delivered',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Back to Home'),
-            )
+            MyReceipt(),
           ],
         ));
   }
