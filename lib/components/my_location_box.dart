@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class MyCurrentLocationBox extends StatefulWidget {
-  const MyCurrentLocationBox({super.key});
+import '../models/restaurant.dart';
 
-  @override
-  State<MyCurrentLocationBox> createState() => _MyCurrentLocationBoxState();
-}
+class MyCurrentLocationBox extends StatelessWidget {
+  MyCurrentLocationBox({super.key});
 
-class _MyCurrentLocationBoxState extends State<MyCurrentLocationBox> {
-  String location = 'Rahmat Hostel, Bolan Rd';
   void openLocationSearchBox(BuildContext context) {
     showDialog(
       context: context,
@@ -17,9 +14,8 @@ class _MyCurrentLocationBoxState extends State<MyCurrentLocationBox> {
         content: TextField(
           onChanged: (value) {
             //update location
-            setState(() {
-              location = value;
-            });
+            Provider.of<Restaurant>(context, listen: false)
+                .updateAddress(value);
           },
           decoration: InputDecoration(
             hintText: 'Enter your location',
@@ -62,11 +58,13 @@ class _MyCurrentLocationBoxState extends State<MyCurrentLocationBox> {
             onTap: () => openLocationSearchBox(context),
             child: Row(
               children: [
-                Text(
-                  location,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      fontWeight: FontWeight.bold),
+                Consumer<Restaurant>(
+                  builder: (context, restaurant, child) => Text(
+                    restaurant.address,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const Icon(Icons.keyboard_arrow_down_outlined),
               ],

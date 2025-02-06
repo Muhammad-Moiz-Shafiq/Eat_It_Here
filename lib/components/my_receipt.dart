@@ -15,6 +15,7 @@ class MyReceipt extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Text('Thank You!'),
             Text('Your order has been placed!'),
             const SizedBox(height: 25),
             Container(

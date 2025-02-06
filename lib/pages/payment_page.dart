@@ -33,6 +33,36 @@ class _PaymentPageState extends State<PaymentPage> {
     ));
   }
 
+  bool validityCheck(String expiryDate) {
+    final List<String> expiryDateList = expiryDate.split('/');
+    final int month = int.parse(expiryDateList[0]);
+    final int year = int.parse(expiryDateList[1]);
+    final DateTime now = DateTime.now();
+    final int cardYear = now.year % 100;
+    if (year < cardYear || (year == cardYear && month < now.month)) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text('Error'),
+                content: const Text(
+                    'Sorry, your card is expired. Kindly use a valid card.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ],
+              ));
+      return false;
+    }
+    return true;
+  }
+
   void onTapPay() {
     //payment logic
     // checking if user has filled the form or not
@@ -58,7 +88,11 @@ class _PaymentPageState extends State<PaymentPage> {
                 ],
               ));
       return;
+    } //checking if expiryDate is less than present date
+    else if (!validityCheck(expiryDate)) {
+      return;
     }
+
     showDialog(
         context: context,
         builder: (context) => AlertDialog(

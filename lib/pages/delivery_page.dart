@@ -1,5 +1,11 @@
 import 'package:eat_it_here/components/my_receipt.dart';
+import 'package:eat_it_here/models/restaurant.dart';
+import 'package:eat_it_here/services/database/firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../components/my_bottom_bar.dart';
 
 class DeliveryProgressPage extends StatefulWidget {
   const DeliveryProgressPage({super.key});
@@ -9,6 +15,16 @@ class DeliveryProgressPage extends StatefulWidget {
 }
 
 class _DeliveryProgressPageState extends State<DeliveryProgressPage> {
+  FirestoreServices db = FirestoreServices();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  @override
+  void initState() {
+    super.initState();
+    final currentUser = auth.currentUser;
+    String receipt = context.read<Restaurant>().displayReceipt();
+    db.addOrder(receipt, currentUser!);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +34,7 @@ class _DeliveryProgressPageState extends State<DeliveryProgressPage> {
           backgroundColor: Colors.transparent,
           foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
+        bottomNavigationBar: MyBottomNavigationBar(),
         body: Column(
           children: [
             MyReceipt(),

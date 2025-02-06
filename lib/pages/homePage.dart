@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage>
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   //Current Location Box
-                  const MyCurrentLocationBox(),
+                  MyCurrentLocationBox(),
                   //Description Box
                   const MyDescriptionBox(),
                 ]),

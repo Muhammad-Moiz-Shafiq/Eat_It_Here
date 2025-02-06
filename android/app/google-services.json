@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "267891791886",
+    "project_id": "eat-it-here",
+    "storage_bucket": "eat-it-here.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267891791886:android:65937563d9007d42adc45f",
+        "android_client_info": {
+          "package_name": "com.example.eat_it_here"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJrgHAlbGFu-Qq5Rf6AVskUZc0IzTddh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

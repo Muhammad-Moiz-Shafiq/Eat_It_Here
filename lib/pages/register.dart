@@ -1,4 +1,5 @@
 import 'package:eat_it_here/components/my_button.dart';
+import 'package:eat_it_here/services/auth/auth_services.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_textfield.dart';
@@ -16,6 +17,71 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+
+  void register() async {
+    final _authService = AuthService();
+
+    if (emailController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty &&
+        confirmPasswordController.text.isNotEmpty) {
+      if (passwordController.text == confirmPasswordController.text) {
+        try {
+          await _authService.registerWithEmailAndPassword(
+            emailController.text,
+            passwordController.text,
+          );
+        } catch (e) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Error'),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error'),
+            content: Text('Passwords do no match.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: Text('Please fill in all fields.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 10),
             MyButton(
-              onTap: () {},
+              onTap: register,
               title: 'Register',
             ),
             const SizedBox(height: 25),

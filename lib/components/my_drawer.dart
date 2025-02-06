@@ -1,11 +1,16 @@
 import 'package:eat_it_here/components/drawer_tile.dart';
 import 'package:flutter/material.dart';
 
-import '../auth/auth.dart';
+import '../services/auth/auth.dart';
 import '../pages/settings.dart';
+import '../services/auth/auth_services.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
+  void logout() {
+    final _authService = AuthService();
+    _authService.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +62,8 @@ class MyDrawer extends StatelessWidget {
                 title: 'L O G O U T',
                 icon: Icons.logout,
                 onTap: () {
+                  logout();
                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => LoginOrRegister()));
                 },
               ),
             ),

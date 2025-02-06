@@ -2,7 +2,7 @@ import 'package:eat_it_here/components/my_button.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_textfield.dart';
-import 'homePage.dart';
+import '../services/auth/auth_services.dart';
 
 class LoginPage extends StatefulWidget {
   final void Function()? onTap;
@@ -16,14 +16,51 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void login() {
+  void login() async {
     /*
       authentication here.
      */
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomePage()),
-    );
+    final _authService = AuthService();
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      try {
+        await _authService.signInWithEmailAndPassword(
+          emailController.text,
+          passwordController.text,
+        );
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error'),
+            content: Text(e.toString()),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Please fill in all fields.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override

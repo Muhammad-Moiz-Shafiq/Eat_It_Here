@@ -308,6 +308,14 @@ class Restaurant extends ChangeNotifier {
 
   //List of cart items
   final List<CartItem> _cart = [];
+  // address
+  String _address = '99 Boulevard, New York, USA';
+  String get address => _address;
+  void updateAddress(String newAddress) {
+    _address = newAddress;
+    notifyListeners();
+  }
+
   //Operations
   //add to cart
   void addToCart(Food food, List<Addon> selectedAddons) {
@@ -368,7 +376,7 @@ class Restaurant extends ChangeNotifier {
   //generate receipts
   String displayReceipt() {
     final receipt = StringBuffer();
-    receipt.writeln('Your order has been placed');
+    receipt.writeln('Here\'s your receipt: ');
     receipt.writeln();
     //date
     String formattedDate =
@@ -376,11 +384,12 @@ class Restaurant extends ChangeNotifier {
     receipt.writeln(formattedDate);
     receipt.writeln();
     receipt.writeln('----------------');
+
     //cart items
     for (final cartItems in _cart) {
       receipt.writeln(
           '${cartItems.quantity} x ${cartItems.food.name} - ${_formatPrice(cartItems.food.price)}');
-      receipt.writeln();
+      // receipt.writeln();
       if (cartItems.selectedAddons.isNotEmpty) {
         receipt.writeln(
             '      Add-ons:  ${_formatAddons(cartItems.selectedAddons)}');
@@ -391,6 +400,8 @@ class Restaurant extends ChangeNotifier {
     receipt.writeln();
     receipt.writeln('Total Items: ${getTotalItems()}');
     receipt.writeln('Total Price: ${_formatPrice(getTotalPrice())}');
+    receipt.writeln();
+    receipt.writeln('Delivering to:  ${_address}');
 
     return receipt.toString();
   }
