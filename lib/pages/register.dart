@@ -15,6 +15,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController displayNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -23,6 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void register() async {
     final _authService = AuthService();
     if (emailController.text.isNotEmpty &&
+        displayNameController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
         confirmPasswordController.text.isNotEmpty) {
       if (passwordController.text == confirmPasswordController.text) {
@@ -33,12 +35,14 @@ class _RegisterPageState extends State<RegisterPage> {
           await _authService.registerWithEmailAndPassword(
             emailController.text,
             passwordController.text,
+            displayNameController.text,
           );
           setState(() {
             showSpinner = false;
             emailController.clear();
             passwordController.clear();
             confirmPasswordController.clear();
+            displayNameController.clear();
           });
         } catch (e) {
           showDialog(
@@ -108,74 +112,88 @@ class _RegisterPageState extends State<RegisterPage> {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    displayNameController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: SafeArea(
-        child: ModalProgressHUD(
-          inAsyncCall: showSpinner,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.account_box,
-                size: 100,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-              const SizedBox(height: 25),
-              const Text('Let\'s make an account!',
-                  style: TextStyle(fontSize: 24)),
-              const SizedBox(height: 20),
-              MyTextfield(
-                controller: emailController,
-                obscureText: false,
-                hintText: 'Email',
-              ),
-              //const SizedBox(height: 20),
-              MyTextfield(
-                controller: passwordController,
-                obscureText: true,
-                hintText: 'Password',
-              ),
-              MyTextfield(
-                controller: confirmPasswordController,
-                obscureText: true,
-                hintText: 'Confirm Password',
-              ),
-              const SizedBox(height: 10),
-              MyButton(
-                onTap: register,
-                title: 'Register',
-              ),
-              const SizedBox(height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already have an account ? ',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      fontSize: 16,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: widget.onTap,
-                    child: Text(
-                      'Login now',
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          widget.onTap!();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        body: SafeArea(
+          child: ModalProgressHUD(
+            inAsyncCall: showSpinner,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.account_box,
+                  size: 100,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+                const SizedBox(height: 25),
+                const Text('Let\'s make an account!',
+                    style: TextStyle(fontSize: 24)),
+                const SizedBox(height: 20),
+                MyTextfield(
+                  controller: displayNameController,
+                  obscureText: false,
+                  hintText: 'Your Name',
+                ),
+                MyTextfield(
+                  controller: emailController,
+                  obscureText: false,
+                  hintText: 'Email',
+                ),
+                //const SizedBox(height: 20),
+                MyTextfield(
+                  controller: passwordController,
+                  obscureText: true,
+                  hintText: 'Password',
+                ),
+                MyTextfield(
+                  controller: confirmPasswordController,
+                  obscureText: true,
+                  hintText: 'Confirm Password',
+                ),
+                const SizedBox(height: 10),
+                MyButton(
+                  onTap: register,
+                  title: 'Register',
+                ),
+                const SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account ? ',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.inversePrimary,
-                        fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: Text(
+                        'Login now',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eat_it_here/components/order_display_tile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:eat_it_here/services/database/firestore.dart';
 import 'package:flutter/material.dart';
 
 class MyOrders extends StatefulWidget {
@@ -11,22 +11,6 @@ class MyOrders extends StatefulWidget {
 }
 
 class _MyOrdersState extends State<MyOrders> {
-  Future<List<QueryDocumentSnapshot>> fetchOrders() async {
-    String? email = FirebaseAuth.instance.currentUser?.email;
-
-    if (email == null) {
-      throw Exception("User not logged in");
-    }
-
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('orders')
-        .where('email', isEqualTo: email)
-        .orderBy('date', descending: true)
-        .get();
-
-    return snapshot.docs; // Returning list of documents
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +21,7 @@ class _MyOrdersState extends State<MyOrders> {
           foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         body: FutureBuilder<List<QueryDocumentSnapshot>>(
-          future: fetchOrders(),
+          future: FirestoreServices().fetchOrders(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());

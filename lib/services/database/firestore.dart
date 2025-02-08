@@ -6,11 +6,27 @@ class FirestoreServices {
       FirebaseFirestore.instance.collection('orders');
   Future<void> addOrder(String receipt, User user) async {
     await _firestore.add({
-      'user': user.uid,
+      'user ID': user.uid,
       'email': user.email,
-      //'name': user.displayName,
+      'username': user.displayName,
       'date': DateTime.now(),
       'order': receipt,
     });
+  }
+
+  //getting orders
+  Future<List<QueryDocumentSnapshot>> fetchOrders() async {
+    String? email = FirebaseAuth.instance.currentUser?.email;
+
+    if (email == null) {
+      throw Exception("User is not logged in!");
+    }
+
+    QuerySnapshot snapshot = await _firestore
+        .where('email', isEqualTo: email)
+        .orderBy('date', descending: true)
+        .get();
+
+    return snapshot.docs; // Returning list of documents
   }
 }

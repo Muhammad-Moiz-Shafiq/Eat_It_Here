@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../pages/all_order_page.dart';
 import '../pages/settings.dart';
+import '../services/auth/auth_gate.dart';
 import '../services/auth/auth_services.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+  final String username;
+  const MyDrawer({super.key, required this.username});
   void logout() {
     final _authService = AuthService();
     _authService.signOut();
@@ -25,6 +27,16 @@ class MyDrawer extends StatelessWidget {
                 Icons.fastfood,
                 size: 100,
                 color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+            ),
+            Center(
+              child: Text(
+                'Welcome, $username',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Padding(
@@ -72,7 +84,11 @@ class MyDrawer extends StatelessWidget {
                 icon: Icons.logout,
                 onTap: () {
                   logout();
-                  Navigator.pop(context);
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => AuthGate()),
+                    (route) => false, // Remove all previous routes
+                  );
                 },
               ),
             ),

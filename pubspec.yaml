@@ -45,6 +45,8 @@ dependencies:
   credit_card_form: ^0.0.7
   intl: ^0.20.2
   modal_progress_hud_nsn: ^0.5.0
+  lottie: ^3.3.1
+  flutter_local_notifications: ^18.0.1
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +82,7 @@ flutter:
     - assets/images/drinks/
     - assets/images/desserts/
     - assets/images/sides/
+    - assets/animation/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

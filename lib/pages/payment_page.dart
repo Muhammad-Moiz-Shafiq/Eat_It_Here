@@ -39,13 +39,15 @@ class _PaymentPageState extends State<PaymentPage> {
     final int year = int.parse(expiryDateList[1]);
     final DateTime now = DateTime.now();
     final int cardYear = now.year % 100;
-    if (year < cardYear || (year == cardYear && month < now.month)) {
+    if (year < cardYear ||
+        !(month <= 12 && month > 0)||
+        (year == cardYear && month < now.month)) {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
                 title: const Text('Error'),
                 content: const Text(
-                    'Sorry, your card is expired. Kindly use a valid card.'),
+                    'Sorry, your card is invalid. Kindly use a valid card.'),
                 actions: [
                   TextButton(
                     onPressed: () {

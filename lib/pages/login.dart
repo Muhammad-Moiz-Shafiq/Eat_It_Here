@@ -1,4 +1,5 @@
 import 'package:eat_it_here/components/my_button.dart';
+import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:flutter/material.dart';
 
@@ -97,87 +98,129 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: SafeArea(
-        child: ModalProgressHUD(
-          inAsyncCall: showSpinner,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.fastfood,
-                size: 100,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-              const SizedBox(height: 25),
-              const Text('Eat It Here!', style: TextStyle(fontSize: 24)),
-              const SizedBox(height: 20),
-              MyTextfield(
-                controller: emailController,
-                obscureText: false,
-                hintText: 'Email',
-              ),
-              //const SizedBox(height: 20),
-              MyTextfield(
-                controller: passwordController,
-                obscureText: true,
-                hintText: 'Password',
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ForgotPw()));
-                      },
-                      child: Text('Forgot your password?',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            fontSize: 14,
-                          )),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
-              MyButton(
-                onTap: login,
-                title: 'Login',
-              ),
-              const SizedBox(height: 25),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Not a member ?',
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (!didPop) {
+          bool exitApp = await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text("Exit App?"),
+              content: Text("Are you sure you want to exit?"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text(
+                    "Cancel",
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      fontSize: 16,
+                      color: Colors.blue,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: widget.onTap,
-                    child: Text(
-                      '  Register now.',
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                    SystemNavigator.pop(); // Exit the app
+                  },
+                  child: Text(
+                    "Exit",
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+
+          if (exitApp == true) {
+            SystemNavigator.pop(); // Exit the app
+          }
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        body: SafeArea(
+          child: ModalProgressHUD(
+            inAsyncCall: showSpinner,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.fastfood,
+                  size: 100,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+                const SizedBox(height: 25),
+                const Text('Eat It Here!', style: TextStyle(fontSize: 24)),
+                const SizedBox(height: 20),
+                MyTextfield(
+                  controller: emailController,
+                  obscureText: false,
+                  hintText: 'Email',
+                ),
+                //const SizedBox(height: 20),
+                MyTextfield(
+                  controller: passwordController,
+                  obscureText: true,
+                  hintText: 'Password',
+                ),
+                const SizedBox(height: 3),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ForgotPw()));
+                        },
+                        child: Text('Forgot your password?',
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                              fontSize: 14,
+                            )),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 14),
+                MyButton(
+                  onTap: login,
+                  title: 'Login',
+                ),
+                const SizedBox(height: 25),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Not a member ?',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.inversePrimary,
-                        fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: Text(
+                        '  Register now.',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

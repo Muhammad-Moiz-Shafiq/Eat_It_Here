@@ -1,5 +1,7 @@
 import 'package:eat_it_here/firebase_options.dart';
+import 'package:eat_it_here/pages/splash_screen.dart';
 import 'package:eat_it_here/services/auth/auth_gate.dart';
+import 'package:eat_it_here/services/notification/notification_services.dart';
 import 'package:eat_it_here/themes/theme_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'models/restaurant.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotiService().initNotification(); //init Notification
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(providers: [
@@ -31,7 +34,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Eat It Here',
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: const AuthGate(),
+      home: const SplashScreen(),
     );
   }
 }

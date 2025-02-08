@@ -89,12 +89,14 @@ class _CartPageState extends State<CartPage> {
                 const SizedBox(height: 10),
                 MyButton(
                     title: 'Checkout',
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const PaymentPage();
-                      }));
-                    }),
+                    onTap: restaurant.cart.isEmpty
+                        ? () {}
+                        : () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const PaymentPage();
+                            }));
+                          }),
                 const SizedBox(height: 20),
               ],
             ),

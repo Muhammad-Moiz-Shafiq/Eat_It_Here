@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MyReceipt extends StatelessWidget {
-  const MyReceipt({super.key});
+  late String username;
+  MyReceipt({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class MyReceipt extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Thank You!'),
+            Text('Dear ${username}, Thank you!'),
             Text('Your order has been placed!'),
             const SizedBox(height: 25),
             Container(
