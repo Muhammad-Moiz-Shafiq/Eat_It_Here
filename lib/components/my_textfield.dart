@@ -17,6 +17,7 @@ class MyTextfield extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscureText,
+        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(

@@ -44,7 +44,7 @@ dependencies:
   u_credit_card: ^1.4.0
   credit_card_form: ^0.0.7
   intl: ^0.20.2
-
+  modal_progress_hud_nsn: ^0.5.0
 
 dev_dependencies:
   flutter_test:

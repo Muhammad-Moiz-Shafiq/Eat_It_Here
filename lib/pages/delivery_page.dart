@@ -1,5 +1,6 @@
 import 'package:eat_it_here/components/my_receipt.dart';
 import 'package:eat_it_here/models/restaurant.dart';
+import 'package:eat_it_here/pages/homePage.dart';
 import 'package:eat_it_here/services/database/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,16 @@ class _DeliveryProgressPageState extends State<DeliveryProgressPage> {
           centerTitle: true,
           backgroundColor: Colors.transparent,
           foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+          //on arrow back button pressed
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+              context.read<Restaurant>().clearCart();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
+            },
+          ),
         ),
         bottomNavigationBar: MyBottomNavigationBar(),
         body: Column(

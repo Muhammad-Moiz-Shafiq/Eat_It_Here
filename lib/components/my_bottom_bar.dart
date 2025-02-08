@@ -6,7 +6,7 @@ class MyBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      height: 112,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.only(
@@ -47,13 +47,14 @@ class MyBottomNavigationBar extends StatelessWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.inversePrimary,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                   Text(
                     'Driver',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
+                      fontSize: 12,
                     ),
                   ),
                 ],

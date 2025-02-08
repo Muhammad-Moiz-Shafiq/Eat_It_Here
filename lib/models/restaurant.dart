@@ -402,7 +402,6 @@ class Restaurant extends ChangeNotifier {
     receipt.writeln('Total Price: ${_formatPrice(getTotalPrice())}');
     receipt.writeln();
     receipt.writeln('Delivering to:  ${_address}');
-
     return receipt.toString();
   }
 
@@ -414,7 +413,7 @@ class Restaurant extends ChangeNotifier {
   //format list of addons into string
   String _formatAddons(List<Addon> addons) {
     return addons
-        .map((addon) => '${addon.name} \$  (${_formatPrice(addon.price)})')
+        .map((addon) => '${addon.name} (${_formatPrice(addon.price)})')
         .join(', ');
   }
 }

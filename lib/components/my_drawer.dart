@@ -1,7 +1,7 @@
 import 'package:eat_it_here/components/drawer_tile.dart';
 import 'package:flutter/material.dart';
 
-import '../services/auth/auth.dart';
+import '../pages/all_order_page.dart';
 import '../pages/settings.dart';
 import '../services/auth/auth_services.dart';
 
@@ -47,6 +47,15 @@ class MyDrawer extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Settings()));
+              },
+            ),
+            MyDrawerTile(
+              title: 'M Y  O R D E R S',
+              icon: Icons.fastfood_outlined,
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyOrders()));
               },
             ),
             const Spacer(),
